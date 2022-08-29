@@ -1,19 +1,10 @@
+<!-- Ooops... Didn't realise Github Pages doesn't support PHP -->
+
 <?php
     if (!isset($_POST['submit'])) {
-
         echo "Error: You need to submit the form.";
     }
 
-    // $name = $_POST['name'];
-    // $visitor_email = $_POST['email'];
-    // $message = $_POST['message'];
-
-    // Validate first
-    // if (empty($name) || empty($visitor_email) || empty($message)) {
-    //     echo "All details (Name, Email, Message) are mandatory.";
-    //     exit;
-    // }
-    
     $errors = [];
 
     if (!empty($_POST)) {
@@ -21,6 +12,7 @@
         $email = $_POST['email'];
         $message = $_POST['message'];
 
+        // Validate
         if (empty($name)) {
             $errors[] = 'Name is empty';
         }
@@ -37,13 +29,14 @@
     if (empty($errors)) {
         $toEmail = 'sophia_elisha@yahoo.co.uk';
         $emailSubject = 'New email from your contact form';
-        $headers = ['From' => $email, 'Reply-To' => $email, 'Content-type' => 'text/html; charset=iso-8859-1'];
+        // $headers = ['From' => $email, 'Reply-To' => $email, 'Content-type' => 'text/html; charset=iso-8859-1'];
+        $headers = "From: ".$email;
         // $bodyParagraphs = ["Name: {$name}", "Email: {$email}", "Message:", $message];
         // $body = join(PHP_EOL, $bodyParagraphs);
         $body = "You have received an email from ".$name.".\n\n".$message;
         
         if (mail($toEmail, $emailSubject, $body, $headers)) {
-            header('Location: thank-you.html');
+            header('Location: index.php?mailsend');
         } else {
             $errorMessage = 'Oops, something went wrong. Please try again later';
         }
